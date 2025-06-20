@@ -16,19 +16,40 @@ This project demonstrates a personalized movie recommendation system using the [
 Modern streaming platforms must recommend content users will enjoy to drive engagement. This system is built to simulate such a platform by learning from historical ratings and genres.
 
 ---
+## Key Business Questions
+- What user behaviors or rating patterns can be leveraged to predict future movie preferences?
+
+- Which recommendation technique offers better predictive performance: memory-based collaborative filtering or model-based filtering
+
+- Can the model generate high-quality, personalized Top 5 recommendations for individual users?
+
+---
 
 ## Data Understanding & Cleaning
+The MovieLens 100K dataset includes:
 
-- **Ratings**: 100,836 entries from 610 users and 9,724 movies.
-- Cleaned and merged `ratings.csv` with `movies.csv` to produce a structured dataset.
-- Removed unused columns such as timestamps.
+- ratings.csv, which contains four columns: userId, movieId, rating, and timestamp, representing a user's interaction with a movie.
+
+- movies.csv, which includes metadata such as the movie title and associated genres.
+
+- tags.csv, which logs user-submitted tags on movies, potentially useful for content-based or hybrid filtering.
+
+- links.csv, which provides external identifiers such as IMDb and TMDb IDs for integration with third-party data.
 
 ---
 
 ## Data Preparation
-
+- Cleaned datasets which include `ratings.csv` and `movies.csv` to produce a structured dataset.
+- Filtered to users with ≥20 ratings and movies with ≥50 ratings, yielding 41,360 ratin
 - Transformed data using the Surprise `Reader` object.
 - Used an 80/20 train-test split to evaluate performance.
+
+---
+## Exploratory Analysis
+
+- Found users favor highly-rated movies in Drama, Comedy, and Thriller genres.
+
+- Active users and popular movies provide strong signals for recommendations.
 
 ---
 
@@ -54,6 +75,12 @@ Implemented two collaborative filtering models using the Surprise library:
 5. Terminator 2: Judgment Day (1991)  
 
 ---
+## Hybrid Filtering
+- Combined SVD with genre-based cosine similarity.
+- Addressed cold-start issues for new users.
+- Blended scores with alpha=0.7 (70% CF, 30% content-based).
+
+---
 
 ## Insights
 
@@ -62,6 +89,9 @@ Implemented two collaborative filtering models using the Surprise library:
 - Regular model retraining is important to capture evolving user behavior.
 
 ---
+## Conclusion
+
+The system combines collaborative and hybrid filtering to deliver personalized movie recommendations, addressing user engagement challenges effectively.
 
 ## Recommendations
 
