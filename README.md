@@ -1,150 +1,105 @@
-MovieLens Movie Recommendation System
+# Movie Recommendation System
 
-Overview
+This project demonstrates a personalized movie recommendation system using the [MovieLens 100K dataset](https://grouplens.org/datasets/movielens/100k/). It leverages collaborative filtering and hybrid modeling techniques to recommend movies based on user preferences.
 
-This project builds a personalized movie recommendation system using the MovieLens 100K dataset from the GroupLens research lab. It employs collaborative and hybrid filtering to recommend the Top 5 movies per user, aiming to boost engagement on streaming platforms.
+---
 
-Business Context
+## Project Overview
 
-Streaming platforms face user overwhelm due to vast content libraries, leading to reduced watch time and churn. This system delivers personalized recommendations to enhance user satisfaction and retention.
+- **Goal**: Build a movie recommender system that provides accurate and relevant movie suggestions to users.
+- **Dataset**: MovieLens 100K, including `ratings.csv`, `movies.csv`, and `tags.csv`.
 
-Key Questions
+---
 
+## Business Understanding
 
+Modern streaming platforms must recommend content users will enjoy to drive engagement. This system is built to simulate such a platform by learning from historical ratings and genres.
 
+---
+## Key Business Questions
+- What user behaviors or rating patterns can be leveraged to predict future movie preferences?
 
+- Which recommendation technique offers better predictive performance: memory-based collaborative filtering or model-based filtering
 
-Can user rating patterns predict future preferences?
+- Can the model generate high-quality, personalized Top 5 recommendations for individual users?
 
+---
 
-
-Does model-based (SVD) or memory-based (KNN) collaborative filtering perform better?
-
-
-
-Can the system generate high-quality Top 5 recommendations?
-
-Dataset
-
+## Data Understanding & Cleaning
 The MovieLens 100K dataset includes:
 
+- ratings.csv, which contains four columns: userId, movieId, rating, and timestamp, representing a user's interaction with a movie.
 
+- movies.csv, which includes metadata such as the movie title and associated genres.
 
+- tags.csv, which logs user-submitted tags on movies, potentially useful for content-based or hybrid filtering.
 
+- links.csv, which provides external identifiers such as IMDb and TMDb IDs for integration with third-party data.
 
-ratings.csv: 100,836 ratings (userId, movieId, rating (0.5–5.0), timestamp).
+---
 
+## Data Preparation
+- Cleaned datasets which include `ratings.csv` and `movies.csv` to produce a structured dataset.
+- Filtered to users with ≥20 ratings and movies with ≥50 ratings, yielding 41,360 ratin
+- Transformed data using the Surprise `Reader` object.
+- Used an 80/20 train-test split to evaluate performance.
 
+---
+## Exploratory Analysis
 
-movies.csv: 9,742 movies, with movieId, title, and genres.
+- Found users favor highly-rated movies in Drama, Comedy, and Thriller genres.
 
-Filtered to users with ≥20 ratings and movies with ≥50 ratings, yielding 41,360 ratings.
+- Active users and popular movies provide strong signals for recommendations.
 
-Methods
+---
 
-Data Preprocessing
+## Modeling
 
+Implemented two collaborative filtering models using the Surprise library:
 
+| Model     | RMSE   | MAE   |
+|-----------|--------|-------|
+| **SVD**   | 0.8368 | 0.6395 |
+| KNNBasic  | 0.8844 | 0.6753 |
 
+➡️ **SVD outperformed KNNBasic** on both metrics.
 
+---
 
-Loaded and cleaned datasets (no missing values, no duplicates, valid ratings).
+## Top Recommendations (User 555)
 
+1. Alien (1979) — ⭐ 4.55  
+2. Raiders of the Lost Ark (1981)  
+3. Clockwork Orange, A (1971)  
+4. Star Wars: Episode V - The Empire Strikes Back (1980)  
+5. Terminator 2: Judgment Day (1991)  
 
+---
+## Hybrid Filtering
+- Combined SVD with genre-based cosine similarity.
+- Addressed cold-start issues for new users.
+- Blended scores with alpha=0.7 (70% CF, 30% content-based).
 
-Filtered active users and popular movies.
+---
 
+## Insights
 
+- Drama, Comedy, and Thriller are the most frequently rated genres.
+- Hybrid models combining collaborative and content-based filtering improve cold-start performance.
+- Regular model retraining is important to capture evolving user behavior.
 
-Converted timestamps to datetime; split ; split genresintolists.
-
-Exploratory Analysis
-
-
-
-
-
-Found users favor highly-rated movies in Drama, Comedy, and Thriller genres.
-
-
-
-Active users and popular movies provide strong signals for recommendations.
-
-Modeling
-
-
-
-
-
-Collaborative Filtering:
-
-
-
-
-
-SVD: Model-based, using Singular Value Decomposition.
-
-
-
-KNNBasic: Memory-based, using cosine similarity.
-
-
-
-SVD outperformed KNNBasic (RMSE: 0.8368 vs. 0.8844; MAE: 0.6395 vs. 0.6753).
-
-
-
-Hybrid Filtering:
-
-
-
-
-
-Combined SVD with genre-based cosine similarity.
-
-
-
-Addressed cold-start issues for new users.
-
-
-
-Blended scores with alpha=0.7 (70% CF, 30% content-based).
-
-Recommendations
-
-
-
-
-
-Generated Top 5 recommendations using SVD and hybrid models.
-
-
-
-Hybrid example for User 1: Shawshank Redemption (1994), Dr. Strangelove (1964), Godfather (1972), Graduate (1967), Cool Hand Luke (1967).
-
-
-
-Hybrid model added diversity (e.g., North by Northwest).
-
-Results
-
-
-
-
-
-SVD offers accurate, scalable recommendations.
-
-
-
-Hybrid filtering improves diversity and handles cold-start users.
-
-
-
-System aligns recommendations with user preferences.
-
-
-
-
-Conclusion
+---
+## Conclusion
 
 The system combines collaborative and hybrid filtering to deliver personalized movie recommendations, addressing user engagement challenges effectively.
+
+## Recommendations
+
+- Deploy SVD-based recommender as the core engine.
+- Introduce hybrid filtering for improved cold-start handling.
+- Periodically retrain the model on new data.
+- Consider expanding with additional features (e.g., tags, demographics).
+
+---
+
+
